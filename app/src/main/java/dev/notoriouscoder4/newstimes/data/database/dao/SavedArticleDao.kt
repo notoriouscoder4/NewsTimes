@@ -1,0 +1,21 @@
+package dev.notoriouscoder4.newstimes.data.database.dao
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dev.notoriouscoder4.newstimes.data.database.entity.SavedArticleEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface SavedArticleDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsert(article: SavedArticleEntity): Long //update or insert
+
+    @Query("SELECT * FROM saved_articles")
+    fun getSavedArticles(): Flow<List<SavedArticleEntity>>
+
+    @Delete
+    suspend fun deleteArticle(article: SavedArticleEntity)
+}
